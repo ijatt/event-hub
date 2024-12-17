@@ -1,5 +1,5 @@
 <template>
-  <div class="relative w-full max-w-screen-lg mx-auto overflow-hidden">
+  <div class="relative w-5/6 lg:w-full max-w-screen-lg mx-auto overflow-hidden">
     <div
       class="flex transition-transform duration-500 ease-in-out"
       :style="{ transform: `translateX(-${currentIndex * 100}%)` }"
@@ -12,7 +12,7 @@
         <img
           :src="slide"
           alt="Carousel Slide"
-          class="w-full h-80 object-cover rounded-lg"
+          class="mx-auto w-full lg:w-full h-40 lg:h-80 object-cover rounded-lg"
         />
       </div>
     </div>

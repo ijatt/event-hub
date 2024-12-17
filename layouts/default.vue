@@ -4,9 +4,9 @@
       class="max-w-full sm:max-w-xl md:max-w-3xl lg:max-w-4xl xl:max-w-7xl mx-auto "
     >
       <nav
-        class="px-10 md:px-20 fixed top-0 left-0 dark:bg-slate-900 dark:bg-opacity-80 py-4 w-full border-b border-slate-300 z-10"
+        class="px-4 md:px-20 fixed top-0 left-0 dark:bg-slate-900 dark:bg-opacity-80 py-4 w-full border-b border-slate-300 z-10"
       >
-        <div class="flex w-full justify-between">
+        <div class="flex w-full justify-between items-center">
           <TheLogo />
           <NavSearch />
           <div class="hidden items-center space-x-4 lg:flex">
@@ -19,8 +19,12 @@
             >
               Register
             </div>
-
           </div>
+          <Icon
+              name="mdi:menu"
+              size="24"
+              class="text-slate-600 hover:text-slate-800 lg:hidden"
+            />
         </div>
       </nav>
       <main class="mt-20">
