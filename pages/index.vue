@@ -24,4 +24,14 @@
   </div>
 </template>
 
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+useHead({
+  title: 'EventHub - Find events near you',
+  meta: [
+    {
+      name: 'description',
+      content: 'Find events near you'
+    }
+  ]
+})
+</script>
