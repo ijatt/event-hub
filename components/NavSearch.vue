@@ -2,7 +2,7 @@
   <div class="relative hidden md:block group">
     <input
       type="text"
-      class="rounded-full w-[500px] px-4 py-2 border-slate-300 focus:ring-yellow-500 focus:ring-2 focus:border-none"
+      class="rounded-full w-[400px] px-4 py-2 border-slate-300 focus:ring-yellow-500 focus:ring-2 focus:border-none"
       placeholder="Search"
     />
     <Icon

@@ -1,5 +1,5 @@
 <template>
-  <div class="rounded-md shrink-0 hover:shadow-lg mb-2 cursor-pointer">
+  <div class="rounded-md shrink-0 hover:shadow-lg mb-2 cursor-pointer" @click="navigateTo('/events/slugss')">
     <img
       src="https://cdn.evbstatic.com/s3-build/fe/build/images/427ab8dca801f117ae14301b994842b2-nye_citybrowse_desktop.webp"
       class="h-40 aspect-video object-cover rounded-t-md"

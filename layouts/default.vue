@@ -10,7 +10,7 @@
           <TheLogo @click="navigateTo('/')" />
           <NavSearch />
           <div class="hidden items-center space-x-4 lg:flex">
-            <NavButton text="Create Events" />
+            <NavButton @click="navigateTo('/events/create')" text="Create Events" />
             <NavButton @click="navigateTo('/events')" text="Events" />
             <NavButton text="About" />
             <NavButton text="Contact" />
