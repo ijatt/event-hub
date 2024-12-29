@@ -17,7 +17,7 @@
           </p>
         </div>
       </div>
-      <div class="w-3/4">
+      <div class="w-full md:w-3/4">
         <h2 class="text-4xl font-bold text-gray-900">New Year's Eve 2024</h2>
         <p class="text-base my-6 text-gray-600">
           New Year's Eve is the last day of the year, December 31, in the
@@ -64,38 +64,10 @@
         <p class="text-xl mt-8 mb-2 text-gray-600 font-bold tracking-wide">
           Agenda
         </p>
-        <div class="rounded-md mb-2 p-4 bg-red-200">
-          <div class="border-l-4 border-red-500 pl-4">
-            <p class="text-sm font-semibold tracking-wide text-gray-600">
-              8:00 PM
-            </p>
-            <p class="text-sm text-gray-600">Opening Ceremony</p>
-          </div>
-        </div>
-        <div class="rounded-md mb-2 p-4 bg-blue-100">
-          <div class="border-l-4 border-blue-500 pl-4">
-            <p class="text-sm font-semibold tracking-wide text-gray-600">
-              8:30 PM
-            </p>
-            <p class="text-sm text-gray-600">Dinner</p>
-          </div>
-        </div>
-        <div class="rounded-md mb-2 p-4 bg-green-100">
-          <div class="border-l-4 border-green-500 pl-4">
-            <p class="text-sm font-semibold tracking-wide text-gray-600">
-              9:30 PM
-            </p>
-            <p class="text-sm text-gray-600">Entertainment</p>
-          </div>
-        </div>
-        <div class="rounded-md mb-2 p-4 bg-yellow-100">
-          <div class="border-l-4 border-yellow-500 pl-4">
-            <p class="text-sm font-semibold tracking-wide text-gray-600">
-              10:30 PM
-            </p>
-            <p class="text-sm text-gray-600">Closing Ceremony</p>
-          </div>
-        </div>
+        <AgendaCard time="8:00 AM" title="Opening Ceremony" color="red" />
+        <AgendaCard time="8:00 PM" title="Opening Ceremony" color="red" />
+        <AgendaCard time="9:00 PM" title="Music" color="green" />
+        <AgendaCard time="10:30 PM" title="Dance" color="blue" />
         <p class="text-xl mt-8 mb-2 text-gray-600 font-bold tracking-wide">
           About this event
         </p>
@@ -127,6 +99,9 @@
   </div>
 </template>
 
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+import AgendaCard from '~/components/AgendaCard.vue';
+
+</script>
 
 <style></style>

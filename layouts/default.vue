@@ -12,9 +12,9 @@
           <div class="hidden items-center space-x-4 lg:flex">
             <NavButton @click="navigateTo('/events/create')" text="Create Events" />
             <NavButton @click="navigateTo('/events')" text="Events" />
-            <NavButton text="About" />
+            <NavButton @click="navigateTo('/about')" text="About" />
             <NavButton text="Contact" />
-            <NavButton text="Register" />
+            <NavButton @click="navigateTo('/auth')" text="Register" />
             <div
               class="bg-yellow-500 text-black font-semibold tracking-wide py-1 px-4 rounded-md cursor-pointer hover:bg-yellow-600"
             >
