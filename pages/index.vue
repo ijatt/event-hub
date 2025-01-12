@@ -2,18 +2,18 @@
   <div class="py-10">
   <TheCarousell />
     <div class="mt-10 flex w-5/6 lg:w-full space-x-4 max-w-screen-lg mx-auto justify-between items-center lg:px-28 overflow-x-auto">
-      <BubbleTab icon="guidance:calendar" text="Events" :isActive="false"/>
-      <BubbleTab icon="material-symbols-light:fastfood-outline-sharp" text="Food and Drinks" :isActive="false" />
-      <BubbleTab icon="ph:disco-ball-thin" text="Nightlife" :isActive="false" />
-      <BubbleTab icon="arcticons:games-2" text="Hobbies" :isActive="false" />
-      <BubbleTab icon="material-symbols-light:mic-outline" text="Music" :isActive="false" />
+      <BubbleTab icon="guidance:calendar" text="Events" :isActive="false" @click="activeTag = 'events'"/>
+      <BubbleTab icon="material-symbols-light:fastfood-outline-sharp" text="Food and Drinks" :isActive="false" @click="activeTag = 'food'"/>
+      <BubbleTab icon="ph:disco-ball-thin" text="Nightlife" :isActive="false"  @click="activeTag = 'nightlife'"/>
+      <BubbleTab icon="arcticons:games-2" text="Hobbies" :isActive="false"  @click="activeTag = 'hobbies'"/>
+      <BubbleTab icon="material-symbols-light:mic-outline" text="Music" :isActive="false"  @click="activeTag = 'music'"/>
     </div>
     <div class="mx-auto w-5/6 lg:w-full max-w-screen-lg mt-10 border-t border-slate-300 py-4">
       <h1 class="text-2xl font-semibold tracking-wide text-slate-700">
         Events for you
       </h1>
       <div class="mt-4 flex space-x-4 w-full overflow-x-auto snap-x">
-        <template v-for="event in events">
+        <template v-for="event in filteredEvents">
           <EventCard :event="event"  @click="navigateTo(`/events/${event.slug}`)"/>
         </template>
       </div>
@@ -41,6 +41,7 @@ type event = {
   time: string
   end: string
   slug: string
+  tags: string[]
 }
 
 const events = ref<event[]>([]);
@@ -50,5 +51,13 @@ onMounted(() => {
   if (storedEvents) {
     events.value = JSON.parse(storedEvents);
   }
+})
+
+const activeTag = ref<string>('');
+const filteredEvents = computed(() => {
+  if (!activeTag.value) {
+    return events.value;
+  }
+  return events.value.filter(event => event.tags.some(tag => tag.toLowerCase().includes(activeTag.value.toLowerCase())));
 })
 </script>
