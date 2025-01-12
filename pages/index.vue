@@ -8,8 +8,8 @@
       <BubbleTab icon="arcticons:games-2" text="Hobbies" :isActive="false"  @click="activeTag = 'hobbies'"/>
       <BubbleTab icon="material-symbols-light:mic-outline" text="Music" :isActive="false"  @click="activeTag = 'music'"/>
     </div>
-    <div class="mx-auto w-5/6 lg:w-full max-w-screen-lg mt-10 border-t border-slate-300 py-4">
-      <h1 class="text-2xl font-semibold tracking-wide text-slate-700">
+    <div class="mx-auto w-5/6 lg:w-full max-w-screen-lg mt-10 border-t dark:border-slate-700 border-slate-300 py-4">
+      <h1 class="text-2xl font-semibold tracking-wide text-slate-700 dark:text-slate-300">
         Events for you
       </h1>
       <div class="mt-4 flex space-x-4 w-full overflow-x-auto snap-x">

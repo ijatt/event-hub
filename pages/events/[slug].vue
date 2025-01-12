@@ -7,67 +7,68 @@
         alt=""
       />
       <div class="flex justify-between items-center mt-10">
-        <p class="text-base mb-2 font-semibold tracking-wide text-gray-600">
+        <p class="text-base mb-2 font-semibold tracking-wide text-gray-600 dark:text-slate-300">
           {{ dateAndDay }}
         </p>
         <div class="flex items-center space-x-2">
-          <Icon name="mdi:calendar" size="24" class="text-gray-600" />
-          <p class="text-base font-semibold tracking-wide text-gray-600">
+          <Icon name="mdi:calendar" size="24" class="text-gray-600 dark:text-slate-300" />
+          <p class="text-base font-semibold tracking-wide text-gray-600 dark:text-slate-300">
+            {{ time }}
             Add to Calendar
           </p>
         </div>
       </div>
       <div class="w-full md:w-3/4">
-        <h2 class="text-4xl font-bold text-gray-900">{{ event?.title }}</h2>
-        <p class="text-base my-6 text-gray-600">
+        <h2 class="text-4xl font-bold text-gray-900 dark:text-white">{{ event?.title }}</h2>
+        <p class="text-base my-6 text-gray-600 dark:text-slate-300">
           {{ event?.description }}
         </p>
-        <div class="mt-8 bg-yellow-50 rounded-md flex items-center py-4 px-6">
+        <div class="mt-8 bg-yellow-50 dark:bg-slate-800 rounded-md flex items-center py-4 px-6">
           <img
             src="https://cdn.evbstatic.com/s3-build/fe/build/images/427ab8dca801f117ae14301b994842b2-nye_citybrowse_desktop.webp"
             alt=""
             class="rounded-full h-14 w-14 object-cover"
           />
-          <p class="ml-4 text-slate-600">
+          <p class="ml-4 text-slate-600 dark:text-slate-300">
             By <span class="font-semibold">Persatuan Krisma Malaysia</span>
           </p>
-          <button class="rounded-md bg-blue-400 text-white px-4 py-2 ml-auto">
+          <button class="rounded-md dark:bg-blue-800 bg-blue-400 text-white px-4 py-2 ml-auto">
             Follow
           </button>
         </div>
-        <p class="text-xl mt-8 mb-2 text-gray-600 font-bold tracking-wide">
+        <p class="text-xl mt-8 mb-2 text-gray-600 font-bold tracking-wide dark:text-slate-300">
           Date and Time
         </p>
         <div class="flex space-x-4 items-center">
-          <Icon name="mdi:calendar" size="24" class="text-gray-600" />
-          <p class="text-sm font-semibold tracking-wide text-gray-600">
+          <Icon name="mdi:calendar" size="24" class="text-gray-600 dark:text-slate-300" />
+          <p class="text-sm font-semibold tracking-wide text-gray-600 dark:text-slate-300">
             {{ dateAndDay }} · {{ time }} GMT+8
           </p>
         </div>
-        <p class="text-xl mt-8 mb-2 text-gray-600 font-bold tracking-wide">
+        <p class="text-xl mt-8 mb-2 text-gray-600 font-bold tracking-wide dark:text-slate-300">
           Location
         </p>
         <div class="flex space-x-4 items-center">
-          <Icon name="mdi:map-marker" size="24" class="text-gray-600" />
+          <Icon name="mdi:map-marker" size="24" class="text-gray-600 dark:text-slate-300" />
           <div class="flex flex-col">
-            <p class="text-sm font-semibold tracking-wide text-gray-600">
+            <p class="text-sm font-semibold tracking-wide text-gray-600 dark:text-slate-300">
               {{ event?.venue }}
             </p>
-            <p class="text-sm text-gray-500">
+            <p class="text-sm text-gray-500 dark:text-slate-300">
               {{ event?.address }}
             </p>
           </div>
         </div>
-        <p class="text-xl mt-8 mb-2 text-gray-600 font-bold tracking-wide">
+        <p class="text-xl mt-8 mb-2 text-gray-600 font-bold tracking-wide dark:text-slate-300">
           Agenda
         </p>
         <template v-for="agenda in event?.agenda">
           <AgendaCard :time="agenda.time" :title="agenda.title" color="red" />
         </template>
-        <p class="text-xl mt-8 mb-2 text-gray-600 font-bold tracking-wide">
+        <p class="text-xl mt-8 mb-2 text-gray-600 font-bold tracking-wide dark:text-slate-300">
           About this event
         </p>
-        <p class="text-base text-gray-600 text-justify">
+        <p class="text-base text-gray-600 text-justify dark:text-slate-300">
           New Year's Eve is a major social observance and many parties are held,
           particularly in the evening. The iconic ball drop in New York City is
           often seen as a symbol of the new year, and parties are held in many
@@ -82,9 +83,9 @@
           educational theme park, a concert hall, a signature gourmet store, a
           spa centre, and a fitness centre.
         </p>
-        <p class="text-xl mt-8 mb-2 text-gray-600 font-bold tracking-wide">Tags</p>
+        <p class="text-xl mt-8 mb-2 text-gray-600 font-bold tracking-wide dark:text-slate-300">Tags</p>
         <div class="flex space-x-4 flex-wrap" >
-          <a href="#" v-for="tag in event?.tags" :key="tag" class="text-sm text-gray-600 hover:text-gray-800 px-4 py-2 rounded-full bg-gray-100">{{ tag }}</a>
+          <a href="#" v-for="tag in event?.tags" :key="tag" class="text-sm text-gray-600 hover:text-gray-800 px-4 py-2 rounded-full bg-gray-100 dark:bg-gray-700 dark:text-slate-300">{{ tag }}</a>
         </div>
       </div>
     </div>
