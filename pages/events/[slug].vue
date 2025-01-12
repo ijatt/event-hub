@@ -8,7 +8,7 @@
       />
       <div class="flex justify-between items-center mt-10">
         <p class="text-base mb-2 font-semibold tracking-wide text-gray-600">
-          Sunday, 31 Dec 2024
+          {{ dateAndDay }}
         </p>
         <div class="flex items-center space-x-2">
           <Icon name="mdi:calendar" size="24" class="text-gray-600" />
@@ -18,11 +18,9 @@
         </div>
       </div>
       <div class="w-full md:w-3/4">
-        <h2 class="text-4xl font-bold text-gray-900">New Year's Eve 2024</h2>
+        <h2 class="text-4xl font-bold text-gray-900">{{ event?.title }}</h2>
         <p class="text-base my-6 text-gray-600">
-          New Year's Eve is the last day of the year, December 31, in the
-          Gregorian calendar. It is a major social observance and many parties
-          are held, particularly in the evening.
+          {{ event?.description }}
         </p>
         <div class="mt-8 bg-yellow-50 rounded-md flex items-center py-4 px-6">
           <img
@@ -43,7 +41,7 @@
         <div class="flex space-x-4 items-center">
           <Icon name="mdi:calendar" size="24" class="text-gray-600" />
           <p class="text-sm font-semibold tracking-wide text-gray-600">
-            Friday, December 31, 2024 · 8:00 - 10:30PM GMT+8
+            {{ dateAndDay }} · {{ time }} GMT+8
           </p>
         </div>
         <p class="text-xl mt-8 mb-2 text-gray-600 font-bold tracking-wide">
@@ -53,21 +51,19 @@
           <Icon name="mdi:map-marker" size="24" class="text-gray-600" />
           <div class="flex flex-col">
             <p class="text-sm font-semibold tracking-wide text-gray-600">
-              WTC Kuala Lumpur, Kuala Lumpur
+              {{ event?.venue }}
             </p>
             <p class="text-sm text-gray-500">
-              41, Jalan Tun Ismail, Chow Kit, 50480 Kuala Lumpur, Wilayah
-              Persekutuan Kuala Lumpur
+              {{ event?.address }}
             </p>
           </div>
         </div>
         <p class="text-xl mt-8 mb-2 text-gray-600 font-bold tracking-wide">
           Agenda
         </p>
-        <AgendaCard time="8:00 AM" title="Opening Ceremony" color="red" />
-        <AgendaCard time="8:00 PM" title="Opening Ceremony" color="red" />
-        <AgendaCard time="9:00 PM" title="Music" color="green" />
-        <AgendaCard time="10:30 PM" title="Dance" color="blue" />
+        <template v-for="agenda in event?.agenda">
+          <AgendaCard :time="agenda.time" :title="agenda.title" color="red" />
+        </template>
         <p class="text-xl mt-8 mb-2 text-gray-600 font-bold tracking-wide">
           About this event
         </p>
@@ -87,12 +83,8 @@
           spa centre, and a fitness centre.
         </p>
         <p class="text-xl mt-8 mb-2 text-gray-600 font-bold tracking-wide">Tags</p>
-        <div class="flex space-x-4 flex-wrap">
-          <a href="#" class="text-sm text-gray-600 hover:text-gray-800 px-4 py-2 rounded-full bg-gray-100">Festival</a>
-          <a href="#" class="text-sm text-gray-600 hover:text-gray-800 px-4 py-2 rounded-full bg-gray-100">Music</a>
-          <a href="#" class="text-sm text-gray-600 hover:text-gray-800 px-4 py-2 rounded-full bg-gray-100">Party</a>
-          <a href="#" class="text-sm text-gray-600 hover:text-gray-800 px-4 py-2 rounded-full bg-gray-100">Celebration</a>
-          <a href="#" class="text-sm text-gray-600 hover:text-gray-800 px-4 py-2 rounded-full bg-gray-100">Event</a>
+        <div class="flex space-x-4 flex-wrap" >
+          <a href="#" v-for="tag in event?.tags" :key="tag" class="text-sm text-gray-600 hover:text-gray-800 px-4 py-2 rounded-full bg-gray-100">{{ tag }}</a>
         </div>
       </div>
     </div>
@@ -100,8 +92,52 @@
 </template>
 
 <script lang="ts" setup>
-import AgendaCard from '~/components/AgendaCard.vue';
+type AgendaItem = {
+  title: string;
+  time: string;
+};
 
+const path = useRoute().params.slug
+type event = {
+  title: string,
+  description: string,
+  venue: string,
+  address: string
+  date: string
+  time: string
+  end: string
+  slug: string
+  tags: string[]
+  agenda: AgendaItem[]
+}
+
+
+
+const events = ref<event[]>([]);
+
+onMounted(() => {
+  const storedEvents = localStorage.getItem('events');
+  if (storedEvents) {
+    events.value = JSON.parse(storedEvents);
+  }
+})
+
+const event = computed(() => {
+  return events.value.find((event) => event.slug === path)
+})
+
+const dateAndDay = computed(() => {
+  if (!event.value) return '';
+  const date = new Date(event.value.date);
+  const options: Intl.DateTimeFormatOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+  return date.toLocaleDateString('en-US', options);
+})
+
+//return the value of the time like this "8:00 AM - 10:00 PM"
+const time = computed(() => {
+  if (!event.value) return '';
+  return `${event.value.time} - ${event.value.end}`;
+})
 </script>
 
 <style></style>

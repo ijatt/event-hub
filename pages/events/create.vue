@@ -1,7 +1,7 @@
 <template>
   <div class="py-10">
     <div class="mx-auto w-5/6 lg:w-full max-w-screen-lg">
-      <form class="w-full">
+      <form class="w-full" @submit.prevent="createEvent">
         <div class="flex w-full justify-between items-center">
           <InputText label="Event Title" v-model="eventTitle" />
           <InputDate v-model="eventDate" label="Event Date" class="ml-4" />
@@ -19,36 +19,80 @@
           <InputText v-model="eventVenue" label="Event Venue"/>
           <InputText v-model="eventAddress" label="Event Address" class="ml-4" />
         </div>
-        <div class="flex flex-col space-y-1 w-full mt-4">
-          <div class="flex justify-between items-center">
-            <p class="text-lg font-semibold tracking-wide text-gray-600">Agenda</p>
-          </div>
-          <div class="flex gap-x-4 flex-row items-center flex-wrap w-full" >
-            <template v-for="(agenda, index) in agendaItems" :key="index">
-              <div class="rounded-md mb-2 p-4 bg-yellow-100 w-1/2 flex items-center justify-between">
-                <div class="border-l-4 border-yellow-500 pl-4">
-                  <p class="text-sm font-semibold tracking-wide text-gray-600">
-                    {{ agenda.time }}
-                  </p>
-                  <p class="text-sm text-gray-600">{{ agenda.title }}</p>
-                </div>
-                <button class="ml-4" type="button" @click="agendaItems.splice(index, 1)">
-                  <Icon name="mdi:close" size="24" class="text-gray-600" />
-                </button>
-            </div>
-            </template>
-          </div>
-          <div class="flex w-full justify-between items-center mb-2">
-            <InputText v-model="agendaTitle" label="Agenda Title" class="mb-2" />
-            <InputTime v-model="agendaTime" label="Agenda Time" class="mb-2 ml-4" />
-          </div>
-          <button @click="addAgenda" type="button" class="w-max ml-auto bg-yellow-500 text-black font-semibold tracking-wide py-1 px-4 rounded-md cursor-pointer hover:bg-yellow-600">+ Add</button>
+        <div class="flex flex-col space-y-4 w-full mt-4">
+  <!-- Agenda Header -->
+  <div class="flex justify-between items-center">
+    <p class="text-lg font-semibold tracking-wide text-gray-700">Agenda</p>
+  </div>
+  <div class="flex flex-wrap items-center gap-4">
+    <InputText v-model="agendaTitle" label="Agenda Title" class="flex-1" />
+    <InputTime v-model="agendaTime" label="Agenda Time" class="flex-1" />
+    <button
+      @click="addAgenda"
+      type="button"
+      class="bg-yellow-500 text-black font-semibold tracking-wide py-2 mt-6 px-6 rounded-md hover:bg-yellow-600 transition"
+    >
+      + Add
+    </button>
+  </div>
+  <div class="flex flex-col space-y-2 w-full">
+    <template v-for="(agenda, index) in agendaItems" :key="index">
+      <div class="flex items-center justify-between bg-yellow-100 border border-yellow-200 py-2 px-2 rounded-md">
+        <div class="flex flex-col border-l-4 border-yellow-500 pl-4">
+          <p class="text-xs font-semibold text-gray-800">{{ agenda.time }}</p>
+          <p class="text-xs text-gray-600">{{ agenda.title }}</p>
         </div>
-        <p class="text-base font-semibold tracking-wide text-gray-600">Tags</p>
-        <p>nanti buat</p>
+        <button type="button" @click="agendaItems.splice(index, 1)" class="ml-4 p-1 text-gray-500 hover:text-gray-800">
+          <Icon name="mdi:close" size="20" class="text-yellow-500" />
+        </button>
+      </div>
+    </template>
+  </div> 
+</div>
+        <p class="text-base font-semibold tracking-wide mt-2 text-gray-600">Tags</p>
+        <div>
+        <div class="flex flex-wrap gap-2 mt-2">
+          <button
+            v-for="tag in predefinedTags"
+            :key="tag"
+            type="button"
+            :class="{
+              'bg-yellow-500 text-white': selectedTags.includes(tag),
+              'bg-gray-200 text-gray-700': !selectedTags.includes(tag),
+            }"
+            class="px-4 py-2 text-xs rounded-full cursor-pointer"
+            @click="toggleTag(tag)"
+          >
+            {{ tag }}
+          </button>
+        </div>
+        <div class="flex items-center gap-2 mt-4 w-2/5">
+          <input type="text" v-model="customTag" class="w-full border border-gray-300 rounded-md py-2 px-2 text-xs" placeholder="Custom Tag" />
+        <button
+          type="button"
+          @click="addCustomTag"
+          class="bg-yellow-500 text-xs text-white px-4 py-2 rounded-lg"
+          :disabled="!customTag.trim()"
+        >
+          Add
+        </button>
+        </div>
+        <div>
+      <div class="flex flex-wrap gap-2 mt-2">
+        <span
+          v-for="tag in selectedTags"
+          :key="tag"
+          class="bg-yellow-500 text-white text-xs px-4 py-2 rounded-full"
+        >
+          {{ tag }}
+          <button @click="removeTag(tag)" class="ml-2 text-xs text-white" type="button">×</button>
+        </span>
+      </div>
+    </div>
+      </div>
         
         <div class="flex w-full justify-end mt-4">
-          <button type="button" class="w-max bg-yellow-500 text-black font-semibold tracking-wide py-1 px-4 rounded-md cursor-pointer hover:bg-yellow-600">Create Event</button>
+          <button type="submit" class="w-max bg-yellow-500 text-black font-semibold tracking-wide py-1 px-4 rounded-md cursor-pointer hover:bg-yellow-600">Create Event</button>
         </div>
       </form>
     </div>
@@ -56,6 +100,43 @@
 </template>
 
 <script lang="ts" setup>
+type event = {
+  title: string,
+  description: string,
+  venue: string,
+  address: string
+  date: string
+  time: string
+  end: string
+  slug: string
+  agenda: AgendaItem[]
+  tags: string[]
+}
+
+const predefinedTags = ['Music', 'Food', 'Tech', 'Business', 'Health', 'Sports', 'Fashion', 'Art', 'Science', 'Education'];
+const selectedTags = ref<string[]>([]);
+const customTag = ref<string>('');
+
+const toggleTag = (tag: string) => {
+  if (selectedTags.value.includes(tag)) {
+    selectedTags.value = selectedTags.value.filter((t) => t !== tag);
+  } else {
+    selectedTags.value.push(tag);
+  }
+};
+
+const addCustomTag = () => {
+  const trimmedTag = customTag.value.trim();
+  if (trimmedTag && !selectedTags.value.includes(trimmedTag)) {
+    selectedTags.value.push(trimmedTag);
+    customTag.value = '';
+  }
+}
+
+const removeTag = (tag: string) => {
+  selectedTags.value = selectedTags.value.filter((t) => t !== tag);
+}
+
 const eventTitle = ref<string>('');
 const eventDescription = ref<string>('');
 const eventDate = ref<string>('');
@@ -85,4 +166,42 @@ const addAgenda = () => {
   }
 };
 
+const createSlug = (title: string) => {
+  return title
+    .toLowerCase()
+    .replace(/ +/g, '-');
+}
+
+const createEvent = () => {
+  // add to localstorage
+  const event: event = {
+    title: eventTitle.value,
+    description: eventDescription.value,
+    venue: eventVenue.value,
+    address: eventAddress.value,
+    date: eventDate.value,
+    time: eventTime.value,
+    end: eventEnd.value,
+    slug: createSlug(eventTitle.value),
+    agenda: agendaItems.value,
+    tags: selectedTags.value
+  }
+
+  const events = localStorage.getItem('events');
+  if (events) {
+    const parsedEvents = JSON.parse(events);
+    parsedEvents.push(event);
+    localStorage.setItem('events', JSON.stringify(parsedEvents));
+  } else {
+    localStorage.setItem('events', JSON.stringify([event]));
+  }
+  toastSuccess('Event Created', 'Your event has been created successfully');
+  eventTitle.value = '';
+  eventDescription.value = '';
+  eventVenue.value = '';
+  eventAddress.value = '';
+  eventDate.value = '';
+  eventTime.value = '';
+  eventEnd.value = '';
+}
 </script>

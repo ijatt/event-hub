@@ -17,13 +17,11 @@
         </div>
       </div>
     </div>
-    <div class="mt-10 flex flex-row w-full justify-center px-10 lg:px-0 md:justify-between max-w-screen-lg mx-auto items-center flex-wrap">
-      <EventCard />
-      <EventCard />
-      <EventCard />
-      <EventCard />
-      <EventCard />
-      <EventCard />
+    <div class="mt-10 flex flex-row w-full
+     justify-center px-10 lg:px-0 md:justify-between max-w-screen-lg mx-auto items-center flex-wrap">
+      <template v-for="event in events">
+        <EventCard :event="event" @click="navigateTo(`/events/${event.slug}`)" />
+      </template>
     </div>
   </div>
 </template>
@@ -37,5 +35,32 @@ useHead({
       content: 'Find events near you'
     }
   ]
+})
+
+type organizer = {
+  name: string,
+  link: string,
+  imageUrl: string
+}
+
+type event = {
+  title: string,
+  description: string,
+  venue: string,
+  address: string
+  date: string
+  time: string
+  end: string
+  organizer: organizer
+  slug: string
+}
+
+const events = ref<event[]>([]);
+
+onMounted(() => {
+  const storedEvents = localStorage.getItem('events');
+  if (storedEvents) {
+    events.value = JSON.parse(storedEvents);
+  }
 })
 </script>
