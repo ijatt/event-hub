@@ -1,6 +1,7 @@
 <template>
   <div class="py-10">
     <div class="mx-auto w-5/6 lg:w-full max-w-screen-lg">
+      <h1 class="text-2xl font-bold text text-slate-600 mb-8">Create an event</h1>
       <form class="w-full" @submit.prevent="createEvent">
         <div class="flex w-full justify-between items-center">
           <InputText label="Event Title" v-model="eventTitle" />
@@ -13,7 +14,7 @@
         
         <div class="flex flex-col space-y-1 w-full mt-4">
           <label for="description" class="text-base font-semibold tracking-wide text-gray-600">Event Description</label>
-          <textarea id="description" class="w-full border border-gray-300 rounded-md py-2 px-4" v-model="eventDescription"></textarea>
+          <textarea id="description" class="w-full border border-gray-300 rounded-md py-2 px-4 focus:ring-yellow-500 focus:ring-2 focus:border-none" v-model="eventDescription"></textarea>
         </div>
         <div class="flex w-full justify-between items-center mt-4">
           <InputText v-model="eventVenue" label="Event Venue"/>
@@ -67,7 +68,7 @@
           </button>
         </div>
         <div class="flex items-center gap-2 mt-4 w-2/5">
-          <input type="text" v-model="customTag" class="w-full border border-gray-300 rounded-md py-2 px-2 text-xs" placeholder="Custom Tag" />
+          <input type="text" v-model="customTag" class="w-full border border-gray-300 rounded-md py-2 px-2 text-xs focus:ring-yellow-500 focus:ring-2 focus:border-none" placeholder="Custom Tag" />
         <button
           type="button"
           @click="addCustomTag"

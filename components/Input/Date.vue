@@ -10,7 +10,7 @@
       @input="$emit('update:modelValue', ($event.target as HTMLInputElement).value)"
       type="date"
       id="title"
-      class="w-full border border-gray-300 rounded-md py-2 px-4"
+      class="w-full border border-gray-300 rounded-md py-2 px-4 focus:ring-yellow-500 focus:ring-2 focus:border-none"
     />
   </div>
 </template>
