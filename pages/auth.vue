@@ -32,6 +32,7 @@ const email = ref<string>('');
 const loading = ref<boolean>(false);
 
 type User = {
+  id: number,
   username: string,
   password: string,
   name: string,
@@ -44,14 +45,18 @@ const register = () => {
   }
 
   loading.value = true;
+
+  const users = JSON.parse(localStorage.getItem('users') || '[]');
+  const id = users.length + 1;
+
   const user: User = {
+    id,
     username: username.value,
     password: password.value,
     name: name.value,
     email: email.value,
-  }
-  
-  const users = JSON.parse(localStorage.getItem('users') || '[]');
+  };
+
   if (users.find((u: User) => u.username === user.username)) {
     toastError('Registration failed', 'Username already exists');
     setTimeout(() => {

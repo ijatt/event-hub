@@ -30,11 +30,11 @@
             class="rounded-full h-14 w-14 object-cover"
           />
           <p class="ml-4 text-slate-600 dark:text-slate-300">
-            By <span class="font-semibold">Persatuan Krisma Malaysia</span>
+            By <span class="font-semibold">{{ organizer?.name }}</span>
           </p>
-          <button class="rounded-md dark:bg-blue-800 bg-blue-400 text-white px-4 py-2 ml-auto">
+          <a :href="organizer?.link" target="_blank" class="cursor-pointer rounded-md dark:bg-blue-800 bg-blue-400 text-white px-4 py-2 ml-auto">
             Follow
-          </button>
+          </a>
         </div>
         <p class="text-xl mt-8 mb-2 text-gray-600 font-bold tracking-wide dark:text-slate-300">
           Date and Time
@@ -62,8 +62,8 @@
         <p class="text-xl mt-8 mb-2 text-gray-600 font-bold tracking-wide dark:text-slate-300">
           Agenda
         </p>
-        <template v-for="agenda in event?.agenda">
-          <AgendaCard :time="agenda.time" :title="agenda.title" color="red" />
+        <template v-for="(agenda, index) in event?.agenda">
+          <AgendaCard :time="agenda.time" :title="agenda.title" :color="iterateColors(index)" />
         </template>
         <p class="text-xl mt-8 mb-2 text-gray-600 font-bold tracking-wide dark:text-slate-300">
           About this event
@@ -110,22 +110,42 @@ type event = {
   slug: string
   tags: string[]
   agenda: AgendaItem[]
+  userId: number
 }
 
-
+type User = {
+  id: number,
+  username: string,
+  password: string,
+  name: string,
+  email: string,
+  role: string,
+  orgName: string | undefined,
+  link: string | undefined,
+  orgAddress: string | undefined,
+}
 
 const events = ref<event[]>([]);
+const users = ref<User[]>([]);
 
 onMounted(() => {
   const storedEvents = localStorage.getItem('events');
   if (storedEvents) {
     events.value = JSON.parse(storedEvents);
   }
+  const user = JSON.parse(localStorage.getItem('users') || '[]');
+  if (users) {
+    users.value = user;
+  }
 })
 
 const event = computed(() => {
   return events.value.find((event) => event.slug === path)
 })
+
+const organizer = computed(() => {
+  return users.value.find((user: User) => user.id === event.value?.userId)
+}) as unknown as User
 
 const dateAndDay = computed(() => {
   if (!event.value) return '';
@@ -139,6 +159,9 @@ const time = computed(() => {
   if (!event.value) return '';
   return `${event.value.time} - ${event.value.end}`;
 })
-</script>
 
-<style></style>
+const iterateColors = (index: number) => {
+  const colors = ['red', 'blue', 'green', 'yellow', 'orange'];
+  return colors[index % colors.length];
+}
+</script>

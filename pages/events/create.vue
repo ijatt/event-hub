@@ -1,7 +1,7 @@
 <template>
   <div class="py-10">
     <div class="mx-auto w-5/6 lg:w-full max-w-screen-lg">
-      <h1 class="text-2xl font-bold text text-slate-600 mb-8">Create an event</h1>
+      <h1 class="text-2xl font-bold text text-slate-600 mb-8 dark:text-slate-300">Create an event</h1>
       <form class="w-full" @submit.prevent="createEvent">
         <div class="flex w-full justify-between items-center">
           <InputText label="Event Title" v-model="eventTitle" />
@@ -13,8 +13,8 @@
         </div>
         
         <div class="flex flex-col space-y-1 w-full mt-4">
-          <label for="description" class="text-base font-semibold tracking-wide text-gray-600">Event Description</label>
-          <textarea id="description" class="w-full border border-gray-300 rounded-md py-2 px-4 focus:ring-yellow-500 focus:ring-2 focus:border-none" v-model="eventDescription"></textarea>
+          <label for="description" class="text-base font-semibold tracking-wide text-gray-600 dark:text-slate-300">Event Description</label>
+          <textarea id="description" class="w-full border border-gray-300 rounded-md py-2 px-4 focus:ring-yellow-500 focus:ring-2 focus:border-none dark:bg-slate-800 dark:text-slate-300 dark:border-slate-700 dark:focus:ring-yellow-500 dark:focus:ring-2 dark:focus:border-none" v-model="eventDescription"></textarea>
         </div>
         <div class="flex w-full justify-between items-center mt-4">
           <InputText v-model="eventVenue" label="Event Venue"/>
@@ -23,7 +23,7 @@
         <div class="flex flex-col space-y-4 w-full mt-4">
   <!-- Agenda Header -->
   <div class="flex justify-between items-center">
-    <p class="text-lg font-semibold tracking-wide text-gray-700">Agenda</p>
+    <p class="text-lg font-semibold tracking-wide text-gray-700 dark:text-slate-300">Agenda</p>
   </div>
   <div class="flex flex-wrap items-center gap-4">
     <InputText v-model="agendaTitle" label="Agenda Title" class="flex-1" />
@@ -50,7 +50,7 @@
     </template>
   </div> 
 </div>
-        <p class="text-base font-semibold tracking-wide mt-2 text-gray-600">Tags</p>
+        <p class="text-base font-semibold tracking-wide mt-2 text-gray-600 dark:text-slate-300">Tags</p>
         <div>
         <div class="flex flex-wrap gap-2 mt-2">
           <button
@@ -59,7 +59,7 @@
             type="button"
             :class="{
               'bg-yellow-500 text-white': selectedTags.includes(tag),
-              'bg-gray-200 text-gray-700': !selectedTags.includes(tag),
+              'bg-gray-200 text-gray-700 dark:bg-gray-700 dark:text-gray-200': !selectedTags.includes(tag),
             }"
             class="px-4 py-2 text-xs rounded-full cursor-pointer"
             @click="toggleTag(tag)"
@@ -68,11 +68,11 @@
           </button>
         </div>
         <div class="flex items-center gap-2 mt-4 w-2/5">
-          <input type="text" v-model="customTag" class="w-full border border-gray-300 rounded-md py-2 px-2 text-xs focus:ring-yellow-500 focus:ring-2 focus:border-none" placeholder="Custom Tag" />
+          <input type="text" v-model="customTag" class="w-full border border-gray-300 rounded-md py-2 px-2 text-xs focus:ring-yellow-500 focus:ring-2 focus:border-none dark:bg-slate-800 dark:text-slate-300 dark:border-slate-700 dark:focus:ring-yellow-500 dark:focus:ring-2 dark:focus:border-none" placeholder="Custom Tag" />
         <button
           type="button"
           @click="addCustomTag"
-          class="bg-yellow-500 text-xs text-white px-4 py-2 rounded-lg"
+          class="bg-yellow-500 text-xs text-black font-bold px-4 py-2 rounded-lg"
           :disabled="!customTag.trim()"
         >
           Add
@@ -112,7 +112,13 @@ type event = {
   slug: string
   agenda: AgendaItem[]
   tags: string[]
+  userId: number
 }
+
+const currentUser = ref<User>({} as User);
+onMounted(() => {
+  currentUser.value = JSON.parse(localStorage.getItem('loggedInUser') || '{}');
+})
 
 const predefinedTags = ['Music', 'Food', 'Tech', 'Business', 'Health', 'Sports', 'Fashion', 'Art', 'Science', 'Education'];
 const selectedTags = ref<string[]>([]);
@@ -174,7 +180,6 @@ const createSlug = (title: string) => {
 }
 
 const createEvent = () => {
-  // add to localstorage
   const event: event = {
     title: eventTitle.value,
     description: eventDescription.value,
@@ -185,7 +190,8 @@ const createEvent = () => {
     end: eventEnd.value,
     slug: createSlug(eventTitle.value),
     agenda: agendaItems.value,
-    tags: selectedTags.value
+    tags: selectedTags.value,
+    userId: currentUser.value.id
   }
 
   const events = localStorage.getItem('events');
@@ -204,5 +210,17 @@ const createEvent = () => {
   eventDate.value = '';
   eventTime.value = '';
   eventEnd.value = '';
+}
+
+type User = {
+  id: number,
+  username: string,
+  password: string,
+  name: string,
+  email: string,
+  role: string,
+  orgName: string | undefined,
+  link: string | undefined,
+  orgAddress: string | undefined,
 }
 </script>

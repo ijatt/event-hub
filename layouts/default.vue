@@ -80,9 +80,9 @@
       </form>
     </div>
     <div class="px-8 py-8" v-if="content === 'logout'">
-      <p class="text-slate-700">Are you sure want to logout?</p>
+      <p class="text-slate-700 dark:text-slate-300">Are you sure want to logout?</p>
       <div class="flex w-full justify-end gap-2">
-        <button @click="isOpen = false" class="bg-slate-300 text-black font-semibold tracking-wide py-1 px-4 rounded-md cursor-pointer hover:bg-yellow-600">No</button>
+        <button @click="isOpen = false" class="bg-slate-300 text-black font-semibold tracking-wide py-1 px-4 rounded-md cursor-pointer hover:bg-yellow-600 dark:bg-slate-600 dark:text-slate-200">No</button>
         <button @click="logout" class="bg-yellow-500 text-black font-semibold tracking-wide py-1 px-4 rounded-md cursor-pointer hover:bg-yellow-600">Yes</button>
       </div>
     </div>
@@ -132,6 +132,7 @@ const logout = () => {
   localStorage.removeItem('loggedInUser');
   currentUser.value = {} as User;
   isOpen.value = false;
+  navigateTo('/');
 }
 
 const currentUser = ref<User>({} as User);
