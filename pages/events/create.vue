@@ -8,7 +8,7 @@
           <img :src="imagePreview" alt=""
             class="w-3/4 mx-auto h-80 object-cover rounded-md"
           >
-          <button @click="file.click()" type="button" class="absolute top-1/2 right-1/2 translate-x-1/2 z-10 bg-yellow-500 text-black font-semibold tracking-wide py-1 px-4 rounded-md cursor-pointer hover:bg-yellow-600">Upload Image</button>
+          <button @click="file?.click()" type="button" class="absolute top-1/2 right-1/2 translate-x-1/2 z-10 bg-yellow-500 text-black font-semibold tracking-wide py-1 px-4 rounded-md cursor-pointer hover:bg-yellow-600">Upload Image</button>
         </div>
         <div class="flex w-full justify-between items-center">
           <InputText label="Event Title" v-model="eventTitle" />
@@ -100,7 +100,10 @@
       </div>
         
         <div class="flex w-full justify-end mt-4">
-          <button type="submit" class="w-max bg-yellow-500 text-black font-semibold tracking-wide py-1 px-4 rounded-md cursor-pointer hover:bg-yellow-600">Create Event</button>
+          <button type="submit" class="w-max bg-yellow-500 text-black font-semibold tracking-wide py-1 px-4 rounded-md cursor-pointer hover:bg-yellow-600">
+            <span v-if="!loading">Create Event</span>
+            <Icon v-else="loading" name="line-md:loading-alt-loop"/>
+          </button>
         </div>
       </form>
     </div>
@@ -160,9 +163,10 @@ const eventEnd = ref<string>('');
 const eventVenue = ref<string>('');
 const eventAddress = ref<string>('');
 const imageFile = ref<File | null>(null);
-const imagePreview = ref<string>('https://img.freepik.com/premium-vector/default-image-icon-vector-missing-picture-page-website-design-mobile-app-no-photo-available_87543-11093.jpg');
+const imagePreview = ref<string>('https://coffective.com/wp-content/uploads/2018/06/default-featured-image.png.jpg');
 const imagePath = ref<string>('');
 const file = ref<HTMLInputElement | null>(null);
+const loading = ref<boolean>(false);
 
 type AgendaItem = {
   title: string;
@@ -204,6 +208,7 @@ const fileChange = (e: Event) => {
 }
 
 const createEvent = async () => {
+  loading.value = true;
   if (imageFile.value) {
     const path = await uploadImage(imageFile.value);
     if (path) {
@@ -243,6 +248,11 @@ const createEvent = async () => {
   eventDate.value = '';
   eventTime.value = '';
   eventEnd.value = '';
+  agendaItems.value = [];
+  selectedTags.value = [];
+  customTag.value = '';
+  imagePreview.value = 'https://coffective.com/wp-content/uploads/2018/06/default-featured-image.png.jpg';
+  loading.value = false;
 }
 
 type User = {
