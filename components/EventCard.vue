@@ -1,9 +1,8 @@
 <template>
   <div class="w-[300px] dark:bg-slate-700 rounded-md shrink-0 hover:shadow-lg mb-2 cursor-pointer" @click="navigateTo('/events/slugss')">
     <img
-      src="https://cdn.evbstatic.com/s3-build/fe/build/images/427ab8dca801f117ae14301b994842b2-nye_citybrowse_desktop.webp"
+      :src="`https://lxaioewcfoimwcbprcsh.supabase.co/storage/v1/object/public/images/${event.imagePath}`" :alt="event.title"
       class="h-40 aspect-video object-cover rounded-t-md"
-      alt=""
     />
     <div class="py-2 px-4">
       <h2 class="text-lg font-semibold text-slate-700 dark:text-slate-200">{{ event.title }}</h2>
@@ -22,6 +21,7 @@ type event = {
   date?: string
   time?: string
   end?: string
+  imagePath?: string
 }
 
 const props = defineProps<{

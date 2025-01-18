@@ -3,7 +3,7 @@
     <div class="mx-auto w-5/6 lg:w-full max-w-screen-lg">
       <img
         class="rounded-lg h-80 w-full object-cover"
-        src="https://cdn.evbstatic.com/s3-build/fe/build/images/427ab8dca801f117ae14301b994842b2-nye_citybrowse_desktop.webp"
+        :src="`https://lxaioewcfoimwcbprcsh.supabase.co/storage/v1/object/public/images/${event?.imagePath}`"
         alt=""
       />
       <div class="flex justify-between items-center mt-10">
@@ -111,6 +111,7 @@ type event = {
   tags: string[]
   agenda: AgendaItem[]
   userId: number
+  imagePath?: string
 }
 
 type User = {

@@ -3,6 +3,13 @@
     <div class="mx-auto w-5/6 lg:w-full max-w-screen-lg">
       <h1 class="text-2xl font-bold text text-slate-600 mb-8 dark:text-slate-300">Create an event</h1>
       <form class="w-full" @submit.prevent="createEvent">
+        <div class="flex w-full flex-col mb-8 relative">
+          <input type="file" ref="file" @change="fileChange" class="hidden" />
+          <img :src="imagePreview" alt=""
+            class="w-3/4 mx-auto h-80 object-cover rounded-md"
+          >
+          <button @click="file.click()" type="button" class="absolute top-1/2 right-1/2 translate-x-1/2 z-10 bg-yellow-500 text-black font-semibold tracking-wide py-1 px-4 rounded-md cursor-pointer hover:bg-yellow-600">Upload Image</button>
+        </div>
         <div class="flex w-full justify-between items-center">
           <InputText label="Event Title" v-model="eventTitle" />
           <InputDate v-model="eventDate" label="Event Date" class="ml-4" />
@@ -113,6 +120,7 @@ type event = {
   agenda: AgendaItem[]
   tags: string[]
   userId: number
+  imagePath?: string
 }
 
 const currentUser = ref<User>({} as User);
@@ -151,6 +159,10 @@ const eventTime = ref<string>('');
 const eventEnd = ref<string>('');
 const eventVenue = ref<string>('');
 const eventAddress = ref<string>('');
+const imageFile = ref<File | null>(null);
+const imagePreview = ref<string>('https://img.freepik.com/premium-vector/default-image-icon-vector-missing-picture-page-website-design-mobile-app-no-photo-available_87543-11093.jpg');
+const imagePath = ref<string>('');
+const file = ref<HTMLInputElement | null>(null);
 
 type AgendaItem = {
   title: string;
@@ -179,7 +191,27 @@ const createSlug = (title: string) => {
     .replace(/ +/g, '-');
 }
 
-const createEvent = () => {
+const fileChange = (e: Event) => {
+  const selectedFile = file.value?.files?.[0];
+  if (selectedFile) {
+    imageFile.value = selectedFile;
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      imagePreview.value = e.target?.result as string;
+    }
+    reader.readAsDataURL(selectedFile);
+  }
+}
+
+const createEvent = async () => {
+  if (imageFile.value) {
+    const path = await uploadImage(imageFile.value);
+    if (path) {
+      toastSuccess('Image uploaded', 'Your image has been uploaded successfully');
+      imagePath.value = path;
+    }
+  }
+
   const event: event = {
     title: eventTitle.value,
     description: eventDescription.value,
@@ -191,7 +223,8 @@ const createEvent = () => {
     slug: createSlug(eventTitle.value),
     agenda: agendaItems.value,
     tags: selectedTags.value,
-    userId: currentUser.value.id
+    userId: currentUser.value.id,
+    imagePath: imagePath.value,
   }
 
   const events = localStorage.getItem('events');

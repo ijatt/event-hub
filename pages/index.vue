@@ -42,6 +42,7 @@ type event = {
   end: string
   slug: string
   tags: string[]
+  imagePath?: string
 }
 
 const events = ref<event[]>([]);

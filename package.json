@@ -12,7 +12,9 @@
   "dependencies": {
     "@nuxt/icon": "1.10.2",
     "@nuxt/ui": "2.20.0",
+    "@supabase/supabase-js": "^2.47.16",
     "nuxt": "^3.14.1592",
+    "uuid": "^11.0.5",
     "vue": "latest",
     "vue-router": "latest"
   },
