@@ -9,9 +9,6 @@
           <InputText v-model="name" label="Name"/>
           <InputText v-model="email" label="Email"/>
           <div class="flex w-full justify-end">
-            <p class="text-slate-600 text-sm dark:text-slate-300">Already have an account? <a href="/auth" class="dark:text-slate-300 dark:hover:text-yellow-500 hover:underline hover:text-yellow-500">Login</a></p>
-          </div>
-          <div class="flex w-full justify-end">
             <button type="submit" class="w-max bg-yellow-500 text-black font-semibold tracking-wide py-1 px-4 rounded-md cursor-pointer hover:bg-yellow-600">
               <span v-if="!loading">Register</span>
               <Icon v-else="loading" name="line-md:loading-alt-loop"/>

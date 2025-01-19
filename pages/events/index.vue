@@ -19,9 +19,10 @@
     </div>
     <div class="mt-10 flex flex-row w-full
      justify-center px-10 lg:px-0 md:justify-between max-w-screen-lg mx-auto items-center flex-wrap">
-      <template v-for="event in events">
+      <template v-if="filteredEvents.length > 0" v-for="event in filteredEvents">
         <EventCard :event="event" @click="navigateTo(`/events/${event.slug}`)" />
       </template>
+      <p class="text-lg font-semibold text-gray-600 dark:text-slate-300" v-else>No events found in tag <span class="italic">{{ tags }}</span>.</p>
     </div>
   </div>
 </template>
@@ -53,6 +54,7 @@ type event = {
   end: string
   organizer: organizer
   slug: string
+  tags: string[]
 }
 
 const events = ref<event[]>([]);
@@ -62,5 +64,18 @@ onMounted(() => {
   if (storedEvents) {
     events.value = JSON.parse(storedEvents);
   }
+})
+
+const tags = ref(useRoute().hash.replace('#', ''));
+const filteredEvents = computed(() => {
+  if (tags.value.length > 0) {
+    return events.value.filter(event => event.tags.includes(tags.value));
+  } else {
+    return events.value
+  }
+})
+
+watch(useRoute(), () => {
+  tags.value = useRoute().hash.replace('#', '');
 })
 </script>
