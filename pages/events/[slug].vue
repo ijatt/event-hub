@@ -22,11 +22,7 @@
           {{ event?.description }}
         </p>
         <div class="mt-8 bg-yellow-50 dark:bg-slate-800 rounded-md flex items-center py-4 px-6">
-          <img
-            src="https://cdn.evbstatic.com/s3-build/fe/build/images/427ab8dca801f117ae14301b994842b2-nye_citybrowse_desktop.webp"
-            alt=""
-            class="rounded-full h-14 w-14 object-cover"
-          />
+          <Icon name="mdi:account" size="24" class="text-gray-600 dark:text-slate-300" />
           <p class="ml-4 text-slate-600 dark:text-slate-300">
             By <span class="font-semibold">{{ organizer?.name }}</span>
           </p>
