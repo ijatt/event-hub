@@ -11,11 +11,9 @@
           {{ dateAndDay }}
         </p>
         <div class="flex items-center space-x-2">
-          <Icon name="mdi:calendar" size="24" class="text-gray-600 dark:text-slate-300" />
-          <p class="text-base font-semibold tracking-wide text-gray-600 dark:text-slate-300">
-            {{ time }}
+          <button @click="addToCalendar" class="text-base font-semibold tracking-wide text-gray-600 dark:text-slate-300 px-2 py-1 rounded-md hover:bg-slate-200">
             Add to Calendar
-          </p>
+          </button>
         </div>
       </div>
       <div class="w-full md:w-3/4">
@@ -164,5 +162,9 @@ const time = computed(() => {
 const iterateColors = (index: number) => {
   const colors = ['red', 'blue', 'green', 'yellow', 'orange'];
   return colors[index % colors.length];
+}
+
+const addToCalendar = () => {
+  window.open(`https://calendar.google.com/calendar/render?action=TEMPLATE&text=${event.value?.title}&dates=${event.value?.date}/${event.value?.end}&details=${event.value?.description}&location=${event.value?.venue} ${event.value?.address}&sf=true&output=xml`, '_blank');
 }
 </script>

@@ -3,7 +3,7 @@
     <div class="mx-auto w-5/6 lg:w-full max-w-screen-lg">
       <h1 class="text-2xl font-bold text-center text-slate-600 mb-4 dark:text-slate-200">Create an account</h1>
       <form @submit.prevent="register" class="w-full flex justify-center">
-        <div class="w-2/5 flex flex-col gap-4">
+        <div class="w-4/5 md:w-3/4 lg:w-2/5 flex flex-col gap-4">
           <InputText v-model="username" label="Username"/>
           <InputText v-model="password" label="Password"/>
           <InputText v-model="name" label="Name"/>

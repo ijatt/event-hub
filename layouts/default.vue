@@ -4,7 +4,7 @@
       class="max-w-full sm:max-w-xl md:max-w-3xl lg:max-w-4xl xl:max-w-7xl mx-auto"
     >
       <nav
-        class="z-50 px-4 md:px-20 fixed top-0 left-0 dark:bg-slate-900 dark:bg-opacity-80 py-4 w-full border-b border-slate-300 z-10 bg-white dark:text-white dark:border-slate-600"
+        class="z-50 px-4 md:px-20 fixed top-0 left-0 dark:bg-slate-900 dark:bg-opacity-80 py-4 w-full border-b border-slate-300 bg-white dark:text-white dark:border-slate-600"
       >
         <div class="flex w-full justify-between items-center">
           <TheLogo @click="navigateTo('/')" />
@@ -45,6 +45,7 @@
           </div>
           <Icon
               name="mdi:menu"
+              @click="openTab = true"
               size="24"
               class="text-slate-600 hover:text-slate-800 lg:hidden"
             />
@@ -87,6 +88,33 @@
       </div>
     </div>
   </UModal>
+  <USlideover v-model="openTab">
+    <div class="p-4">
+      <h1 class="text-2xl font-bold text-center text-slate-600 mb-4 dark:text-slate-200">Menu</h1>
+      
+      <div class="flex flex-col gap-4">
+        <NavButton @click="navigateTo('/')" text="Home" />
+        <NavButton @click="navigateTo('/events/create')" text="Create Events" />
+        <NavButton @click="navigateTo('/events')" text="Events" />
+        <NavButton @click="navigateTo('/about')" text="About" />
+        <NavButton v-if="Object.keys(currentUser).length === 0" @click="navigateTo('/auth')" text="Register" />
+        <div
+          v-if="Object.keys(currentUser).length === 0"
+          @click="isOpen = true, content = 'login'"
+          class="bg-yellow-500 text-black font-semibold tracking-wide py-1 px-4 rounded-md cursor-pointer hover:bg-yellow-600"
+        >
+          Login
+        </div>
+        <div
+          v-else
+          @click="isOpen = true, content = 'logout'"
+          class="bg-yellow-500 text-black font-semibold tracking-wide py-1 px-4 rounded-md cursor-pointer hover:bg-yellow-600"
+        >
+          Logout
+        </div>
+      </div>
+    </div>
+  </USlideover>
 </template>
 
 <script lang="ts" setup>
@@ -96,6 +124,7 @@ const password = ref<string>('');
 const loading = ref<boolean>(false);
 const content = ref<string>('');
 const isDarkMode = ref<boolean>(false);
+const openTab = ref<boolean>(false);
 
 type User = {
   username: string,
@@ -152,6 +181,17 @@ const toggleDarkMode = () => {
   document.documentElement.classList.toggle('dark');
   localStorage.setItem('darkMode', isDarkMode.value.toString());
 }
+
+watch(useRoute(), () => {
+  openTab.value = false;
+})
+
+const { width } = useWindowSize();
+watch(width, () => {
+  if (width.value > 768) {
+    openTab.value = false;
+  }
+})
 </script>
 
 <style>
