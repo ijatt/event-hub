@@ -67,19 +67,7 @@
           About this event
         </p>
         <p class="text-base text-gray-600 text-justify dark:text-slate-300">
-          New Year's Eve is a major social observance and many parties are held,
-          particularly in the evening. The iconic ball drop in New York City is
-          often seen as a symbol of the new year, and parties are held in many
-          parts of the world, including the United States, Canada, the United
-          Kingdom, and Europe.<br /><br />
-          The event is held at the World Trade Centre Kuala Lumpur, a 1,000,000
-          sq ft (93,000 m2) shopping mall located in the central business
-          district of Kuala Lumpur, Malaysia. It is a major shopping destination
-          in Malaysia with over 450 retail outlets and a variety of
-          entertainment facilities such as a cinema, an ice rink, a bowling
-          alley, a karaoke centre, a children's adventure land, a children's
-          educational theme park, a concert hall, a signature gourmet store, a
-          spa centre, and a fitness centre.
+          {{ event?.about ?? 'No information provided' }}
         </p>
         <p class="text-xl mt-8 mb-2 text-gray-600 font-bold tracking-wide dark:text-slate-300">Tags</p>
         <div class="flex space-x-4 flex-wrap" >
@@ -90,7 +78,7 @@
   </div>
 </template>
 
-<script lang="ts" setup>
+  <script lang="ts" setup>
 type AgendaItem = {
   title: string;
   time: string;
@@ -100,6 +88,7 @@ const path = useRoute().params.slug
 type event = {
   title: string,
   description: string,
+  about: string,
   venue: string,
   address: string
   date: string

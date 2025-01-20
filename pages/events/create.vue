@@ -23,6 +23,10 @@
           <label for="description" class="text-base font-semibold tracking-wide text-gray-600 dark:text-slate-300">Event Description</label>
           <textarea id="description" class="w-full border border-gray-300 rounded-md py-2 px-4 focus:ring-yellow-500 focus:ring-2 focus:border-none dark:bg-slate-800 dark:text-slate-300 dark:border-slate-700 dark:focus:ring-yellow-500 dark:focus:ring-2 dark:focus:border-none" v-model="eventDescription"></textarea>
         </div>
+        <div class="flex flex-col space-y-1 w-full mt-4">
+          <label for="about" class="text-base font-semibold tracking-wide text-gray-600 dark:text-slate-300">Event About</label>
+          <textarea id="about" class="w-full border border-gray-300 rounded-md py-2 px-4 focus:ring-yellow-500 focus:ring-2 focus:border-none dark:bg-slate-800 dark:text-slate-300 dark:border-slate-700 dark:focus:ring-yellow-500 dark:focus:ring-2 dark:focus:border-none" v-model="eventAbout"></textarea>
+        </div>
         <div class="flex w-full justify-between items-center mt-4">
           <InputText v-model="eventVenue" label="Event Venue"/>
           <InputText v-model="eventAddress" label="Event Address" class="ml-4" />
@@ -114,6 +118,7 @@
 type event = {
   title: string,
   description: string,
+  about: string,
   venue: string,
   address: string
   date: string
@@ -157,6 +162,7 @@ const removeTag = (tag: string) => {
 
 const eventTitle = ref<string>('');
 const eventDescription = ref<string>('');
+const eventAbout = ref<string>('');
 const eventDate = ref<string>('');
 const eventTime = ref<string>('');
 const eventEnd = ref<string>('');
@@ -220,6 +226,7 @@ const createEvent = async () => {
   const event: event = {
     title: eventTitle.value,
     description: eventDescription.value,
+    about: eventAbout.value,
     venue: eventVenue.value,
     address: eventAddress.value,
     date: eventDate.value,
@@ -243,6 +250,7 @@ const createEvent = async () => {
   toastSuccess('Event Created', 'Your event has been created successfully');
   eventTitle.value = '';
   eventDescription.value = '';
+  eventAbout.value = '';
   eventVenue.value = '';
   eventAddress.value = '';
   eventDate.value = '';
